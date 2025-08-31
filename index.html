@@ -19,11 +19,11 @@
       min-height: 100vh;
     }
 
-    /* Top banner header */
+    /* 🔽 Smaller header */
     header {
       position: relative;
       text-align: center;
-      padding: 40px 20px;
+      padding: 20px 15px;  /* was 40px 20px */
       background: url("https://i.ibb.co/RGVs3mQn/DUN-AI-revised.png") no-repeat center/cover;
       color: #fff;
     }
@@ -33,10 +33,10 @@
       background: rgba(0,0,0,0.55);
     }
     header .inner { position: relative; z-index: 1; max-width: 1080px; margin: 0 auto; }
-    header img { max-width: 250px; margin-bottom: 0; background: transparent; border: none; box-shadow: none; }
-    @media (max-width:600px){ header img{ max-width:180px; } }
-    header h1 { font-size: 28px; font-weight: 800; text-shadow: 1px 1px 4px rgba(0,0,0,.7); }
-    header p.sub { margin-top: 6px; font-size: 14px; opacity: .9; }
+    header img { max-width: 180px; margin-bottom: 6px; background: transparent; border: none; box-shadow: none; }
+    @media (max-width:600px){ header img{ max-width:150px; } }
+    header h1 { font-size: 22px; font-weight: 800; text-shadow: 1px 1px 4px rgba(0,0,0,.7); margin: 5px 0; }
+    header p.sub { margin-top: 4px; font-size: 13px; opacity: .9; }
 
     /* Chat container */
     #n8n-chat-container {
@@ -52,17 +52,17 @@
       flex: 1; width: 100%; height: 100%; min-height: 0;
     }
 
-    /* 🚫 Remove the n8n chat header entirely */
+    /* Remove n8n default header */
     #n8n-chat .chat-header { display: none !important; }
 
     /* Hide branding */
     #n8n-chat .powered-by { display: none !important; }
 
-    /* ✅ Custom footer */
+    /* Footer */
     footer {
       background: #111;
       text-align: center;
-      padding: 12px;
+      padding: 10px;
       font-size: 13px;
       color: #aaa;
       border-top: 1px solid #222;
