@@ -3,9 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <title>Sarawak AI Tourism Assistant</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <!-- Theme colors -->
+  <!-- n8n Chat CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" />
+
   <style>
     :root {
       --chat--color-primary: #800000;
@@ -24,69 +26,104 @@
       display: flex;
       flex-direction: column;
       font-family: "Segoe UI", Arial, sans-serif;
-      background: #111; /* dark base background */
+      background: #111;
       color: #fff;
     }
 
+    /* Header with DUN image + dark overlay */
     header {
       position: relative;
       text-align: center;
       padding: 40px 20px;
-      background: url("https://i.ibb.co/RGVs3mQn/DUN-AI-revised.png") no-repeat center center/cover;
+      background: url("https://i.ibb.co/RGVs3mQn/DUN-AI-revised.png") no-repeat center center / cover;
       color: #fff;
     }
-
-    /* dark overlay */
     header::before {
       content: "";
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0,0,0,0.55);
+      position: absolute; inset: 0;
+      background: rgba(0,0,0,0.55); /* dark overlay */
     }
-
-    header img {
+    header .inner {
       position: relative;
       z-index: 1;
-      max-width: 160px; /* square logo */
-      margin-bottom: 15px;
-      border: 3px solid #fff;
-      box-shadow: 0 4px 12px rgba(0,0,0,.35);
+      max-width: 1080px;
+      margin: 0 auto;
+    }
+
+    /* Logo - transparent, no background */
+    header img {
+      max-width: 180px;
+      margin-bottom: 14px;
+      border: none;
+      background: transparent; /* 👈 transparent */
+      box-shadow: none;        /* no shadow/frame */
     }
 
     header h1 {
-      position: relative;
-      z-index: 1;
       font-size: 28px;
-      font-weight: bold;
+      font-weight: 800;
+      letter-spacing: .3px;
       text-shadow: 1px 1px 4px rgba(0,0,0,0.7);
     }
-
-    #n8n-chat-container {
-      flex: 1;
-      display: flex;
+    header p.sub {
+      margin-top: 6px;
+      font-size: 14px;
+      opacity: .9;
     }
 
+    /* Chat area */
+    #n8n-chat-container {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      background: #fff;
+      border-top-left-radius: 20px;
+      border-top-right-radius: 18px;
+      box-shadow: 0 -2px 12px rgba(0,0,0,0.25);
+      overflow: hidden;
+    }
     #n8n-chat {
       flex: 1;
       height: 100%;
-      background: #fff;
     }
-  </style>
 
-  <!-- n8n Chat CSS -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" />
+    /* Hide widget’s default header */
+    #n8n-chat .chat-header { display: none !important; }
+  </style>
 </head>
 <body>
 
-  <header>
-    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTpxP5zqDEUiHcEY8E6G8oxaZMollE2taB3iQ&amp;usqp=CAU" alt="Tourism Logo">
+  <!-- Page Header -->
+<header>
+  <div class="inner">
+    <img src="https://sarawakharvestfestival.com.my/wp-content/uploads/2025/05/Sarawak-More-to-Discover-min.png" 
+         alt="Sarawak Tourism Logo" />
     <h1>Sarawak AI Tourism Assistant</h1>
-  </header>
+    <p class="sub">Tanya apa-apa tentang destinasi, acara, dan tip perjalanan di Sarawak.</p>
+  </div>
+</header>
 
-  <!-- Chat mount point -->
+<style>
+  /* Logo size control */
+  header img {
+    max-width: 250px;   /* 👈 adjust this number to make bigger/smaller */
+    margin-bottom: 0px;
+    border: none;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  /* Optional: shrink logo on small screens */
+  @media (max-width: 600px) {
+    header img {
+      max-width: 180px;
+    }
+  }
+</style>
+
+  <!-- Chat Mount -->
   <div id="n8n-chat-container">
-    <div id="n8n-chat" data-v-app=""><main class="chat-layout chat-wrapper n8n-chat"><div class="chat-header"><div class="chat-heading"><h1>Hi there! 👋</h1><!----></div><p>Start a chat. We're here to help you 24/7.</p></div><div class="chat-body"><div class="chat-messages-list"><div class="chat-message chat-message-from-bot"><!----><div class="chat-message-markdown"><p>Selamat datang! 👋 Saya Sam Izrin. Tanya apa-apa tentang pelancongan Sarawak.</p>
-</div><!----></div><!----></div></div><div class="chat-footer"><div data-v-de5e7961="" class="chat-input" style="--controls-count: 1;"><div data-v-de5e7961="" class="chat-inputs"><!----><textarea data-v-de5e7961="" data-test-id="chat-input" placeholder="Type your question.." style="height: 50px;"></textarea><div data-v-de5e7961="" class="chat-inputs-controls"><!----><button data-v-de5e7961="" disabled="" class="chat-input-send-button"><svg data-v-de5e7961="" viewBox="0 0 24 24" width="24" height="24"><path fill="currentColor" d="m2 21l21-9L2 3v7l15 2l-15 2z"></path></svg></button></div></div><!----></div></div></main></div>
+    <div id="n8n-chat"></div>
   </div>
 
   <!-- n8n Chat JS -->
@@ -98,12 +135,13 @@
       target: '#n8n-chat',
       mode: 'fullscreen',
       showWelcomeScreen: false,
+      enableStreaming: false,
       loadPreviousSession: true,
-      enableStreaming: false, // set true only if your workflow streams
-      initialMessages: ['Selamat datang! 👋 Tanya apa-apa tentang pelancongan Sarawak.']
+      initialMessages: [
+        'Selamat datang! 👋 Saya Sam Izrin. Tanya apa-apa tentang pelancongan Sarawak.'
+      ]
     });
   </script>
 
-
-<script>document.body.contentEditable=true;document.body.style.outline='none';let lastBodyHTML=document.body.innerHTML;document.body.addEventListener('blur',()=>{if(document.body.innerHTML!==lastBodyHTML){lastBodyHTML=document.body.innerHTML;window.parent.postMessage({type:'update-source',newBody:lastBodyHTML},'*')}},true);</script></body>
+</body>
 </html>
