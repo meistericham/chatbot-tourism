@@ -9,137 +9,114 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" />
 
   <style>
-    :root {
-      --chat--color-primary: #800000;
-      --chat--color-secondary: #B22222;
-      --chat--header--background: #800000;
-      --chat--toggle--background: #800000;
-      --chat--window--width: 420px;
-      --chat--window--height: 640px;
-    }
-
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    html, body { height: 100%; }
-
+    html, body { height: 100%; margin: 0; }
     body {
-      min-height: 100%;
-      display: flex;
-      flex-direction: column;
-      font-family: "Segoe UI", Arial, sans-serif;
+      display: grid;
+      grid-template-rows: auto 1fr auto; /* header, chat, footer */
       background: #111;
       color: #fff;
+      font-family: "Segoe UI", Arial, sans-serif;
+      min-height: 100vh;
     }
 
-    /* Header with DUN image + dark overlay */
+    /* Top banner header */
     header {
       position: relative;
       text-align: center;
       padding: 40px 20px;
-      background: url("https://i.ibb.co/RGVs3mQn/DUN-AI-revised.png") no-repeat center center / cover;
+      background: url("https://i.ibb.co/RGVs3mQn/DUN-AI-revised.png") no-repeat center/cover;
       color: #fff;
     }
     header::before {
       content: "";
       position: absolute; inset: 0;
-      background: rgba(0,0,0,0.55); /* dark overlay */
+      background: rgba(0,0,0,0.55);
     }
-    header .inner {
-      position: relative;
-      z-index: 1;
-      max-width: 1080px;
-      margin: 0 auto;
-    }
+    header .inner { position: relative; z-index: 1; max-width: 1080px; margin: 0 auto; }
+    header img { max-width: 250px; margin-bottom: 0; background: transparent; border: none; box-shadow: none; }
+    @media (max-width:600px){ header img{ max-width:180px; } }
+    header h1 { font-size: 28px; font-weight: 800; text-shadow: 1px 1px 4px rgba(0,0,0,.7); }
+    header p.sub { margin-top: 6px; font-size: 14px; opacity: .9; }
 
-    /* Logo - transparent, no background */
-    header img {
-      max-width: 180px;
-      margin-bottom: 14px;
-      border: none;
-      background: transparent; /* 👈 transparent */
-      box-shadow: none;        /* no shadow/frame */
-    }
-
-    header h1 {
-      font-size: 28px;
-      font-weight: 800;
-      letter-spacing: .3px;
-      text-shadow: 1px 1px 4px rgba(0,0,0,0.7);
-    }
-    header p.sub {
-      margin-top: 6px;
-      font-size: 14px;
-      opacity: .9;
-    }
-
-    /* Chat area */
+    /* Chat container */
     #n8n-chat-container {
-      flex: 1;
-      min-height: 0;
-      display: flex;
+      width: 100%; height: 100%;
       background: #fff;
       border-top-left-radius: 20px;
       border-top-right-radius: 18px;
-      box-shadow: 0 -2px 12px rgba(0,0,0,0.25);
+      box-shadow: 0 -2px 12px rgba(0,0,0,.25);
       overflow: hidden;
+      display: flex;
     }
-    #n8n-chat {
-      flex: 1;
-      height: 100%;
+    #n8n-chat, .n8n-chat {
+      flex: 1; width: 100%; height: 100%; min-height: 0;
     }
 
-    /* Hide widget’s default header */
+    /* 🚫 Remove the n8n chat header entirely */
     #n8n-chat .chat-header { display: none !important; }
+
+    /* Hide branding */
+    #n8n-chat .powered-by { display: none !important; }
+
+    /* ✅ Custom footer */
+    footer {
+      background: #111;
+      text-align: center;
+      padding: 12px;
+      font-size: 13px;
+      color: #aaa;
+      border-top: 1px solid #222;
+    }
+    footer span {
+      color: #f0f0f0;
+      font-weight: 500;
+    }
   </style>
 </head>
 <body>
 
-  <!-- Page Header -->
-<header>
-  <div class="inner">
-    <img src="https://sarawakharvestfestival.com.my/wp-content/uploads/2025/05/Sarawak-More-to-Discover-min.png" 
-         alt="Sarawak Tourism Logo" />
-    <h1>Sarawak AI Tourism Assistant</h1>
-    <p class="sub">Tanya apa-apa tentang destinasi, acara, dan tip perjalanan di Sarawak.</p>
-  </div>
-</header>
+  <header>
+    <div class="inner">
+      <img src="https://sarawakharvestfestival.com.my/wp-content/uploads/2025/05/Sarawak-More-to-Discover-min.png" alt="Sarawak Tourism Logo" />
+      <h1>Sarawak AI Tourism Assistant</h1>
+      <p class="sub">Tanya apa-apa tentang destinasi, acara, dan tip perjalanan di Sarawak.</p>
+    </div>
+  </header>
 
-<style>
-  /* Logo size control */
-  header img {
-    max-width: 250px;   /* 👈 adjust this number to make bigger/smaller */
-    margin-bottom: 0px;
-    border: none;
-    background: transparent;
-    box-shadow: none;
-  }
-
-  /* Optional: shrink logo on small screens */
-  @media (max-width: 600px) {
-    header img {
-      max-width: 180px;
-    }
-  }
-</style>
-
-  <!-- Chat Mount -->
   <div id="n8n-chat-container">
     <div id="n8n-chat"></div>
   </div>
 
-  <!-- n8n Chat JS -->
+  <!-- Custom Footer -->
+  <footer>
+    Concept by <span>Mohd Hisyamudin</span> | Powered by <span>AI</span>
+  </footer>
+
   <script type="module">
     import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
 
     createChat({
-      webhookUrl: 'https://n8n.meistericham.com/webhook/2b3a3c70-54ef-4a49-8fd7-fffc74890913/chat',
+      webhookUrl: 'https://n8n.meistericham.com/webhook/a150b85b-434d-4465-8d1c-48c164d94bea/chat',
       target: '#n8n-chat',
       mode: 'fullscreen',
       showWelcomeScreen: false,
       enableStreaming: false,
       loadPreviousSession: true,
+
       initialMessages: [
-        'Selamat datang! 👋 Saya Sam Izrin. Tanya apa-apa tentang pelancongan Sarawak.'
-      ]
+        'Selamat datang! 👋 Saya Sam Izrin.',
+        'Tanya apa-apa pasal Kuching & Sarawak: tempat menarik, makanan, waktu operasi, pengangkutan.',
+        'Contoh: “Bila show Darul Hana fountain?”, “Macam mana pergi Bako?”, “Di mana beli kek lapis?”'
+      ],
+
+      i18n: {
+        en: {
+          title: '',
+          subtitle: '',
+          getStarted: '',
+          inputPlaceholder: 'Tanya soalan di sini… contoh: “Waktu fountain Darul Hana”'
+        }
+      }
     });
   </script>
 
