@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Sarawak AI Tourism Assistant</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Theme colors -->
+  <style>
+    :root {
+      --chat--color-primary: #800000;
+      --chat--color-secondary: #B22222;
+      --chat--header--background: #800000;
+      --chat--toggle--background: #800000;
+      --chat--window--width: 420px;
+      --chat--window--height: 640px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { height: 100%; }
+
+    body {
+      min-height: 100%;
+      display: flex;
+      flex-direction: column;
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: #111; /* dark base background */
+      color: #fff;
+    }
+
+    header {
+      position: relative;
+      text-align: center;
+      padding: 40px 20px;
+      background: url("https://i.ibb.co/RGVs3mQn/DUN-AI-revised.png") no-repeat center center/cover;
+      color: #fff;
+    }
+
+    /* dark overlay */
+    header::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.55);
+    }
+
+    header img {
+      position: relative;
+      z-index: 1;
+      max-width: 160px; /* square logo */
+      margin-bottom: 15px;
+      border: 3px solid #fff;
+      box-shadow: 0 4px 12px rgba(0,0,0,.35);
+    }
+
+    header h1 {
+      position: relative;
+      z-index: 1;
+      font-size: 28px;
+      font-weight: bold;
+      text-shadow: 1px 1px 4px rgba(0,0,0,0.7);
+    }
+
+    #n8n-chat-container {
+      flex: 1;
+      display: flex;
+    }
+
+    #n8n-chat {
+      flex: 1;
+      height: 100%;
+      background: #fff;
+    }
+  </style>
+
+  <!-- n8n Chat CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" />
+</head>
+<body>
+
+  <header>
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTpxP5zqDEUiHcEY8E6G8oxaZMollE2taB3iQ&amp;usqp=CAU" alt="Tourism Logo">
+    <h1>Sarawak AI Tourism Assistant</h1>
+  </header>
+
+  <!-- Chat mount point -->
+  <div id="n8n-chat-container">
+    <div id="n8n-chat" data-v-app=""><main class="chat-layout chat-wrapper n8n-chat"><div class="chat-header"><div class="chat-heading"><h1>Hi there! 👋</h1><!----></div><p>Start a chat. We're here to help you 24/7.</p></div><div class="chat-body"><div class="chat-messages-list"><div class="chat-message chat-message-from-bot"><!----><div class="chat-message-markdown"><p>Selamat datang! 👋 Tanya apa-apa tentang pelancongan Sarawak.</p>
+</div><!----></div><!----></div></div><div class="chat-footer"><div data-v-de5e7961="" class="chat-input" style="--controls-count: 1;"><div data-v-de5e7961="" class="chat-inputs"><!----><textarea data-v-de5e7961="" data-test-id="chat-input" placeholder="Type your question.." style="height: 50px;"></textarea><div data-v-de5e7961="" class="chat-inputs-controls"><!----><button data-v-de5e7961="" disabled="" class="chat-input-send-button"><svg data-v-de5e7961="" viewBox="0 0 24 24" width="24" height="24"><path fill="currentColor" d="m2 21l21-9L2 3v7l15 2l-15 2z"></path></svg></button></div></div><!----></div></div></main></div>
+  </div>
+
+  <!-- n8n Chat JS -->
+  <script type="module">
+    import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
+
+    createChat({
+      webhookUrl: 'https://n8n.meistericham.com/webhook/2b3a3c70-54ef-4a49-8fd7-fffc74890913/chat',
+      target: '#n8n-chat',
+      mode: 'fullscreen',
+      showWelcomeScreen: false,
+      loadPreviousSession: true,
+      enableStreaming: false, // set true only if your workflow streams
+      initialMessages: ['Selamat datang! 👋 Tanya apa-apa tentang pelancongan Sarawak.']
+    });
+  </script>
+
+
+<script>document.body.contentEditable=true;document.body.style.outline='none';let lastBodyHTML=document.body.innerHTML;document.body.addEventListener('blur',()=>{if(document.body.innerHTML!==lastBodyHTML){lastBodyHTML=document.body.innerHTML;window.parent.postMessage({type:'update-source',newBody:lastBodyHTML},'*')}},true);</script></body>
+</html>
