@@ -71,6 +71,30 @@
       color: #f0f0f0;
       font-weight: 500;
     }
+
+    /* ✅ Make chat input & send button more prominent */
+    #n8n-chat .chat-input {
+      font-size: 15px;
+      padding: 10px 14px;
+    }
+    #n8n-chat .chat-input button {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: #111 !important;
+      color: #fff !important;
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-left: 6px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+      transition: background 0.2s ease;
+    }
+    #n8n-chat .chat-input button:hover,
+    #n8n-chat .chat-input button:focus {
+      background: #333 !important;
+    }
   </style>
 </head>
 <body>
