@@ -3,31 +3,26 @@
 <head>
   <meta charset="UTF-8" />
   <title>Sarawak AI Tourism Assistant</title>
-
-  <!-- Mobile: fill the notch area, prevent awkward zoom -->
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="format-detection" content="telephone=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <!-- n8n Chat CSS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" />
 
   <style>
-    /* ---------- Base layout ---------- */
     html, body { height: 100%; margin: 0; }
     body {
       display: grid;
-      grid-template-rows: auto 1fr auto; /* header, chat, footer */
+      grid-template-rows: auto 1fr auto;
       background: #111;
       color: #fff;
       font-family: "Segoe UI", Arial, sans-serif;
-      min-height: 100svh; /* stable mobile viewport */
+      min-height: 100vh;
     }
 
-    /* ---------- Header (smaller on mobile) ---------- */
     header {
       position: relative;
       text-align: center;
-      padding: 20px 16px;
+      padding: 20px 15px;
       background: url("https://i.ibb.co/RGVs3mQn/DUN-AI-revised.png") no-repeat center/cover;
       color: #fff;
     }
@@ -37,94 +32,78 @@
       background: rgba(0,0,0,0.55);
     }
     header .inner { position: relative; z-index: 1; max-width: 1080px; margin: 0 auto; }
-    header img { max-width: 180px; margin-bottom: 6px; background: transparent; border: 0; }
-    header h1 { font-size: 22px; font-weight: 800; margin: 4px 0 0; text-shadow: 1px 1px 4px rgba(0,0,0,.7); }
+    header img { max-width: 180px; margin-bottom: 6px; background: transparent; border: none; box-shadow: none; }
+    @media (max-width:600px){ header img{ max-width:150px; } }
+    header h1 { font-size: 22px; font-weight: 800; text-shadow: 1px 1px 4px rgba(0,0,0,.7); margin: 5px 0; }
     header p.sub { margin-top: 4px; font-size: 13px; opacity: .9; }
 
-    @media (max-width: 480px) {
-      header { padding: 12px 12px; }
-      header img { max-width: 140px; margin-bottom: 4px; }
-      header h1 { font-size: 19px; }
-      header p.sub { font-size: 12px; }
-    }
-
-    /* ---------- Chat container ---------- */
     #n8n-chat-container {
       width: 100%; height: 100%;
       background: #fff;
-      border-top-left-radius: 16px;
-      border-top-right-radius: 16px;
+      border-top-left-radius: 20px;
+      border-top-right-radius: 18px;
       box-shadow: 0 -2px 12px rgba(0,0,0,.25);
       overflow: hidden;
       display: flex;
     }
-    #n8n-chat, .n8n-chat { flex: 1; width: 100%; height: 100%; min-height: 0; }
+    #n8n-chat, .n8n-chat {
+      flex: 1; width: 100%; height: 100%; min-height: 0;
+    }
 
-    /* Remove n8n default header & branding to save space */
     #n8n-chat .chat-header { display: none !important; }
     #n8n-chat .powered-by { display: none !important; }
 
-    /* ---------- Mobile-friendly input & send button ---------- */
-    /* Keep input font >=16px to avoid iOS zoom; make sticky at bottom */
-    #n8n-chat .chat-footer {
-      position: sticky;
-      bottom: 0;
-      z-index: 2;
-      background: #fff;
-      border-top: 1px solid #eee;
-      padding-bottom: max(8px, env(safe-area-inset-bottom)); /* safe area for iPhone */
+    #n8n-chat .message-content {
+      white-space: pre-line;
+      word-break: break-word;
     }
 
-    #n8n-chat .chat-input {
-      font-size: 16px;
-      padding: 10px 14px;
-    }
-
-    /* Bigger, round send button with clear contrast */
-    #n8n-chat .chat-input button {
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      background: #111 !important;
-      color: #fff !important;
-      font-size: 22px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-left: 8px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
-      transition: background 0.2s ease, transform 0.06s ease;
-      -webkit-tap-highlight-color: transparent;
-    }
-    #n8n-chat .chat-input button:active { transform: scale(0.98); }
-    #n8n-chat .chat-input input,
-    #n8n-chat .chat-input textarea {
-      line-height: 1.35;
-    }
-
-    /* Prevent floating widgets (e.g., WA button) from covering the input */
-    .wa-float, .whatsapp-float, .float-button {
-      bottom: calc(80px + env(safe-area-inset-bottom)) !important;
-      right: 16px !important;
-    }
-
-    /* ---------- Footer ---------- */
     footer {
       background: #111;
       text-align: center;
-      padding: 10px 12px;
+      padding: 10px;
       font-size: 13px;
       color: #aaa;
       border-top: 1px solid #222;
     }
-    footer span { color: #f0f0f0; font-weight: 500; }
+    footer span {
+      color: #f0f0f0;
+      font-weight: 500;
+    }
+
+    #n8n-chat .chat-input {
+      font-size: 15px;
+      padding: 10px 14px;
+    }
+    #n8n-chat .chat-input button,
+    .n8n-chat .chat-input button,
+    .n8n-chat .send-button {
+      width: 48px !important;
+      height: 48px !important;
+      border-radius: 50% !important;
+      background: #111 !important;
+      color: #fff !important;
+      font-size: 22px !important;
+      display: flex !important;
+      align-items: center;
+      justify-content: center;
+      margin-left: 6px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3) !important;
+      transition: background 0.2s ease;
+    }
+    .n8n-chat .chat-input button:hover {
+      background: #333 !important;
+    }
   </style>
 </head>
 <body>
 
   <header>
     <div class="inner">
-      <img src="https://sarawakharvestfestival.com.my/wp-content/uploads/2025/05/Sarawak-More-to-Discover-min.png" alt="Sarawak Tourism Logo" />
+      <!-- 🔗 Logo boleh klik -->
+      <a href="https://sarawaktourism.com" target="_blank" rel="noopener">
+        <img src="https://sarawakharvestfestival.com.my/wp-content/uploads/2025/05/Sarawak-More-to-Discover-min.png" alt="Sarawak Tourism Logo" />
+      </a>
       <h1>Sarawak AI Tourism Assistant</h1>
       <p class="sub">Tanya apa-apa tentang destinasi, acara, dan tip perjalanan di Sarawak.</p>
     </div>
@@ -148,13 +127,11 @@
       showWelcomeScreen: false,
       enableStreaming: false,
       loadPreviousSession: true,
-
       initialMessages: [
         'Selamat datang! 👋 Saya Sam Izrin.',
         'Tanya apa-apa pasal Kuching & Sarawak: tempat menarik, makanan, waktu operasi, pengangkutan.',
         'Contoh: “Bila show Darul Hana fountain?”, “Macam mana pergi Bako?”, “Di mana beli kek lapis?”'
       ],
-
       i18n: {
         en: {
           title: '',
